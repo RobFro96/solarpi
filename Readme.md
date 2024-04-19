@@ -39,3 +39,10 @@ network={
 ## Git einrichten
 - Mit Git kann die aktuellste Programmversion mit nur einem Befehl von GitHub heruntergeladen werden
 - `sudo apt install git`
+- `git clone git@github.com:RobFro96/solarpi.git`
+
+## Python vollständig installieren
+- `python --version` →  sollte >3.8 liefern
+- `sudo apt install python3-pip`
+- `sudo pip install --upgrade pip`
+- `sudo pip install -r requirements.txt`
