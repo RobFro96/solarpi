@@ -1,0 +1,41 @@
+# SolarPi
+
+## Erstinstallation
+
+## OS Image auf SD brennen
+- Raspberry Pi Imager:  <https://www.raspberrypi.com/software/>
+- Betriebssystem: Raspberry Pi OS (other) → Raspberry Pi OS Lite (32bit)
+- SD-Karte auswählen
+- Zusätzliche Optionen:
+  - Hostname: solarpi.local
+  - SSH aktivieren, Passwortauthentifizierung
+  - Set username and password: pi, XXXXX
+- SD-Karte brennen
+
+## Über SSH verbinden
+- `ping solarpi.local`
+- Verbindung herstellen über Putty oder `ssh pi@solarpi.local`
+- `sudo apt update`
+- `sudo apt -y upgrade`
+- `sudo raspi-config`
+  - 5 Localisation Options
+    - L1 Locale → de_DE (Leertaste drücken zum Auswählen)
+    - L2 Timezone → Berlin
+  - 6 Advanced → A1 Expand Filesystem
+- Finish → Reboot
+
+## WLAN konfigurieren
+- `ip a` → wlan0 hat keine IP-Adresse
+- `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf`
+```
+network={
+   ssid="WLAN-SSID"
+   psk="WLAN-PASSWORT"
+}
+```
+- `sudo reboot`
+- `ip a` → wlan0 hat eine IP-Adresse
+
+## Git einrichten
+- Mit Git kann die aktuellste Programmversion mit nur einem Befehl von GitHub heruntergeladen werden
+- `sudo apt install git`
