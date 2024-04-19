@@ -40,9 +40,18 @@ network={
 - Mit Git kann die aktuellste Programmversion mit nur einem Befehl von GitHub heruntergeladen werden
 - `sudo apt install git`
 - `git clone git@github.com:RobFro96/solarpi.git`
+- `cd solarpi`
 
 ## Python vollständig installieren
 - `python --version` →  sollte >3.8 liefern
 - `sudo apt install python3-pip`
 - `sudo pip install --upgrade pip`
 - `sudo pip install -r requirements.txt`
+- `python solarpi.py` sollte das Programm starten
+- Beenden mit Strg+C
+
+## Service installieren
+- `sudo cp solarpi.service /etc/systemd/system/`
+- `sudo systemctl enable solarpi.service`
+- `sudo systemctl start solarpi.service`
+- `sudo systemctl status solarpi.service`
