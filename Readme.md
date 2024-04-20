@@ -8,6 +8,19 @@ sudo pip install -r requirements.txt
 sudo systemctl restart solarpi.service
 ```
 
+## Kalkulation des Speicherbedarfs
+- circa 2 KB für alle drei Geräte pro Anfrage
+- Anfrage alle 1 min = 1440 Anfragen / Tag
+- ≈ 3 MB pro Datei
+- Verfügbarer Speicherplatz abfragen mit `df -h`
+```
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       7.1G  1.5G  5.3G  22% /
+```
+- hier 5.3 GB frei (available)
+- 1700 Tage = 4.8 Jahre
+
+
 ## Erstinstallation
 
 ### OS Image auf SD brennen
@@ -60,9 +73,18 @@ network={
 
 ### Service installieren
 ```
-sudo cp solarpi.service /etc/systemd/system/
-sudo systemctl enable solarpi.service
-sudo systemctl start solarpi.service
-sudo systemctl status solarpi.service
-journalctl -u solarpi.service -n 20
+sudo cp solarpi_sammler.service /etc/systemd/system/
+sudo cp solarpi_server.service /etc/systemd/system/
+
+sudo systemctl enable solarpi_sammler.service
+sudo systemctl enable solarpi_server.service
+
+sudo systemctl start solarpi_sammler.service
+sudo systemctl start solarpi_server.service
+```
+
+- Anzeige von Status und Logs:
+```
+sudo systemctl status solarpi_sammler.service
+journalctl -u solarpi_sammler.service -n 20
 ```
