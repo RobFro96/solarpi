@@ -38,4 +38,6 @@ class config:
         ("i_batterie_entladen", "float"),  # ZZZ
     ]
     data_folder = "data"
-    data_filename = "%y%m%d.tsv"
+    data_filename = "%y%m%d.txt"
+    server_host = "0.0.0.0"
+    server_port = 8080

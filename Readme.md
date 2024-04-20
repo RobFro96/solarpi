@@ -3,9 +3,12 @@
 ## Programm aktualisieren
 ```
 cd ~/solarpi
+git reset --hard HEAD
+git clean -f -d
 git pull
 sudo pip install -r requirements.txt
-sudo systemctl restart solarpi.service
+sudo systemctl restart solarpi_sammler.service
+sudo systemctl restart solarpi_server.service
 ```
 
 ## Kalkulation des Speicherbedarfs
@@ -65,7 +68,7 @@ network={
 
 ### Python vollständig installieren
 - `python --version` →  sollte >3.8 liefern
-- `sudo apt install python3-pip`
+- `sudo apt install python3-pip python3-numpy python3-matplotlib`
 - `sudo pip install --upgrade pip`
 - `sudo pip install -r requirements.txt`
 - `python solarpi.py` sollte das Programm starten

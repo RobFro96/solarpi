@@ -1,2 +1,4 @@
 coloredlogs
 pyserial
+flask
+werkzeug

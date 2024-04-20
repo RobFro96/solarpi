@@ -25,7 +25,7 @@ QUERIES = [
 ]
 
 
-class SerialThread(threading.Thread):
+class SolarPiSammler(threading.Thread):
     def __init__(self, event: threading.Event) -> None:
         threading.Thread.__init__(self)
         self.event = event
@@ -122,4 +122,4 @@ if __name__ == "__main__":
     if not os.path.isdir(config.data_folder):
         os.makedirs(config.data_folder)
 
-    SerialThread(threading.Event()).run()
+    SolarPiSammler(threading.Event()).run()
