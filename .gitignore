@@ -162,3 +162,5 @@ cython_debug/
 /.vscode
 /docs
 /data
+visu_*.py
+!visu_beispiel.py
