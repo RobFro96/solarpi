@@ -27,6 +27,6 @@ def get_dataset(date: str) -> dict:
                 config.data_key_time_num].append(
                 obj[config.data_key_time_num])
             for key, _ in config.data_keys:
-                dataset[device_id][key].append(obj[key])
+                dataset[device_id][key].append(obj.get(key))
 
     return dataset

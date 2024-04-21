@@ -53,7 +53,8 @@ class SolarPiSammler(threading.Thread):
 
         result = self.prepare_results(device_id, result)
         logging.debug(result)
-        self.store_results(result)
+        if result:
+            self.store_results(result)
 
     def prepare_results(self, device_id: int, result: bytes):
         result = result[:-config.trim_result].decode("utf8")
@@ -63,6 +64,7 @@ class SolarPiSammler(threading.Thread):
 
         if len(result) != len(config.data_keys):
             logging.warning("Anzahl der Datensegmente stimmen nicht!")
+            return None
 
         result_json = dict()
         result_json[config.data_key_timestr] = datetime.datetime.now().strftime("%H:%M:%S")
