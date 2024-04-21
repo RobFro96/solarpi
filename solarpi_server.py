@@ -1,3 +1,4 @@
+import datetime
 import importlib.util
 import json
 import logging
@@ -9,6 +10,7 @@ import coloredlogs
 import flask
 import werkzeug
 
+import solarpi_datamanager
 from config import config
 
 
@@ -25,6 +27,8 @@ class SolarPiServer(threading.Thread):
             threaded=False
         )
         self.app.add_url_rule("/", "index", self.__index)
+        self.app.add_url_rule("/visu/<string:name>", view_func=self.__visu,
+                              defaults={"date": "today"})
         self.app.add_url_rule("/visu/<string:name>/<string:date>", view_func=self.__visu)
 
     def __index(self) -> flask.Response:
@@ -35,6 +39,9 @@ class SolarPiServer(threading.Thread):
         if not os.path.isfile(visu_python_file):
             flask.abort(404)
 
+        if date == "today":
+            date = datetime.datetime.now().strftime("%y%m%d")
+
         data_file = os.path.join(config.data_folder, date + ".txt")
         if not os.path.isfile(data_file):
             flask.abort(404)
@@ -42,27 +49,7 @@ class SolarPiServer(threading.Thread):
         logging.info("Rendere %s mit Daten %s", visu_python_file, data_file)
 
         try:
-            # Generate empty dataset
-            dataset = dict()
-            for device_id in config.devices:
-                dataset[device_id] = dict()
-                dataset[device_id][config.data_key_timestr] = list()
-                dataset[device_id][config.data_key_time_num] = list()
-                for key, _ in config.data_keys:
-                    dataset[device_id][key] = list()
-
-            # Read file
-            with open(data_file, "r", encoding="utf8") as fp:
-                for line in fp:
-                    obj = json.loads(line)
-
-                    device_id = obj[config.data_key_device]
-                    dataset[device_id][config.data_key_timestr].append(obj[config.data_key_timestr])
-                    dataset[device_id][
-                        config.data_key_time_num].append(
-                        obj[config.data_key_time_num])
-                    for key, _ in config.data_keys:
-                        dataset[device_id][key].append(obj[key])
+            dataset = solarpi_datamanager.get_dataset(date)
 
             # Import and run python file
             spec = importlib.util.spec_from_file_location("visu", visu_python_file)
