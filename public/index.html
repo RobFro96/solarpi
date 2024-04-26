@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SolarPi</title>
   </head>
-  <body>
+  <body onload="onload()">
+    <script src="solarpi.js"></script>
     <h1>SolarPi</h1>
 
     Visualisierung:
-    <select name="vius_select">
+    <select id="visu_select">
       <option value="beispiel">Beispiel</option>
     </select>
     Datum:
-    <input type="date" id="start" name="date">
+    <input type="date" id="datepicker">
 
-    <button type="button">Anzeigen</button>
-
-    <div id="content"></div>
+    <button type="button" onclick="update_plot()">Anzeigen</button>
+    <hr>
+    <img src="" id="content_img">
 
   </body>
 </html>
