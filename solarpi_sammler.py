@@ -8,6 +8,7 @@ import typing
 
 import coloredlogs
 import serial
+import serial.tools.list_ports
 
 from config import config
 
@@ -31,12 +32,35 @@ class SolarPiSammler(threading.Thread):
         self.event = event
 
     def run(self) -> None:
-        self.ser = serial.Serial(config.serial_port, config.serial_baudrate,
+        port = self.find_out_serial_port()
+        if not port:
+            return
+
+        self.ser = serial.Serial(port, config.serial_baudrate,
                                  timeout=config.serial_timeout)
 
         self.download_data()
         while not self.event.wait(config.update_interval):
             self.download_data()
+
+    def find_out_serial_port(self) -> str:
+        for n in range(config.serial_retry_count):
+            logging.info("Versuch %d eine serielle Schnittstelle zu finden", n+1)
+            port = self.__get_serial_port()
+            if port:
+                logging.info("Schnittstelle %s gefunden", port)
+                return port
+            time.sleep(config.serial_retry_delay)
+
+        logging.info("Schnittstelle konnte nicht gefunden werden -> reboot")
+        os.system("sudo reboot")
+
+    def __get_serial_port(self) -> str:
+        ports = serial.tools.list_ports.comports()
+        ports = [p.device for p in ports]
+        if ports:
+            return ports[0]
+        return None
 
     def download_data(self) -> None:
         for device_id in config.devices:
@@ -56,7 +80,7 @@ class SolarPiSammler(threading.Thread):
         if result:
             self.store_results(result)
 
-    def prepare_results(self, device_id: int, result: bytes):
+    def prepare_results(self, device_id: int, result: bytes) -> str:
         result = result[:-config.trim_result].decode("utf8")
         result = result.split(" ")
 

@@ -1,5 +1,6 @@
 class config:
-    serial_port = "/dev/ttyUSB0"
+    serial_retry_count = 5
+    serial_retry_delay = 5
     serial_baudrate = 2400
     serial_timeout = 2
     update_interval = 60
