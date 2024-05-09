@@ -58,8 +58,9 @@ class SolarPiSammler(threading.Thread):
     def __get_serial_port(self) -> str:
         ports = serial.tools.list_ports.comports()
         ports = [p.device for p in ports]
-        if ports:
-            return ports[0]
+        for port in ports:
+            if "USB" in port:
+                return port
         return None
 
     def download_data(self) -> None:
