@@ -164,3 +164,4 @@ cython_debug/
 /data
 visu_*.py
 !visu_beispiel.py
+/auswertung

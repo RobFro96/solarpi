@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolarPi</title>
-  </head>
-  <body onload="onload()">
-    <script src="solarpi.js"></script>
-    <h1>SolarPi</h1>
 
-    Visualisierung:
-    <select id="visu_select">
-      <option value="beispiel">Beispiel</option>
-    </select>
-    Datum:
-    <input type="date" id="datepicker">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolarPi</title>
+</head>
 
-    <button type="button" onclick="update_plot()">Anzeigen</button>
-    <hr>
-    <img src="" id="content_img">
+<body onload="onload()">
+  <script src="solarpi.js"></script>
+  <h1>SolarPi</h1>
 
-  </body>
+  Visualisierung:
+  <select id="visu_select">
+    <option value="allgemein">Allgemein</option>
+    <option value="modul_spannung">Modulspannung</option>
+    <option value="batterie_prozent">Batterieladezustand Prozent</option>
+    <option value="batterie_spannung">Batterieladezustand Spannung</option>
+    <option value="entnahme_batterie">Verbauch aus Batterien</option>
+    <option value="entnahme">Verbauch Gesamt</option>
+    <option value="laden">Ladestrom</option>
+    <option value="status">Status</option>
+  </select>
+  Datum:
+  <input type="date" id="datepicker">
+
+  <button type="button" onclick="update_plot()">Anzeigen</button>
+  <hr>
+  <img src="" id="content_img">
+
+</body>
+
 </html>
